@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 긍, 부정어 분석 | A Minimal Book Example</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 긍, 부정어 분석 | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 긍, 부정어 분석 | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Yihui Xie" />
+
+
+<meta name="date" content="2022-12-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="단어-총빈도-분석.html"/>
+<link rel="next" href="상대빈도분석-1.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> 목차</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#주제선정이유-및-데이터셋-설정"><i class="fa fa-check"></i><b>1.1</b> 1. 주제선정이유 및 데이터셋 설정</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#단어-총빈도분석"><i class="fa fa-check"></i><b>1.2</b> 2. 단어 총빈도분석</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#단어-감성사전-분석"><i class="fa fa-check"></i><b>1.3</b> 3. 단어 감성사전 분석</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#상대빈도분석"><i class="fa fa-check"></i><b>1.4</b> 4. 상대빈도분석</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#토픽모델링-및-정리"><i class="fa fa-check"></i><b>1.5</b> 5. 토픽모델링 및 정리</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="주제선정이유.html"><a href="주제선정이유.html"><i class="fa fa-check"></i><b>2</b> 주제선정이유</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="주제선정이유.html"><a href="주제선정이유.html#나이키와-아디다스가-대립-브랜드이고-각-브랜드가-어떤-홍보활동이나-시장을-노리고-있는지-알아보고-싶어-그-차이를-분석해-보자-주제를-선정하게-되었습니다."><i class="fa fa-check"></i><b>2.1</b> 나이키와 아디다스가 대립 브랜드이고, 각 브랜드가 어떤 홍보활동이나 시장을 노리고 있는지 알아보고 싶어 그 차이를 분석해 보자 주제를 선정하게 되었습니다.</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="데이터셋-설정.html"><a href="데이터셋-설정.html"><i class="fa fa-check"></i><b>3</b> 데이터셋 설정</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="데이터셋-설정.html"><a href="데이터셋-설정.html#빅카인즈에서-각-브랜드별-2021.10.01현재까지의-기사들을-데이터-수집하였습니다."><i class="fa fa-check"></i><b>3.1</b> 빅카인즈에서 각 브랜드별 2021.10.01~현재까지의 기사들을 데이터 수집하였습니다.</a></li>
+<li class="chapter" data-level="3.2" data-path="데이터셋-설정.html"><a href="데이터셋-설정.html#내용을-분석하는데-도움을-주는-패키지와-감성사전을-설치해-분석을-실시하려합니다."><i class="fa fa-check"></i><b>3.2</b> 내용을 분석하는데 도움을 주는 패키지와 감성사전을 설치해 분석을 실시하려합니다.</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html"><i class="fa fa-check"></i><b>4</b> 단어 총빈도 분석</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#나이키-단어-총빈도-분석"><i class="fa fa-check"></i><b>4.1</b> 나이키 단어 총빈도 분석</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#러시아가-상위-주제어에-있었으나-그-수가-너무-많아-후에-분석에-방해되어-삭제했습니다."><i class="fa fa-check"></i><b>4.1.1</b> ★러시아가 상위 주제어에 있었으나, 그 수가 너무 많아 후에 분석에 방해되어 삭제했습니다.</a></li>
+<li class="chapter" data-level="4.1.2" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#매년-블랙프라이데이에-패션플랫폼에서-할인이벤트-등을-해-상위어에-나왔습니다"><i class="fa fa-check"></i><b>4.1.2</b> ★매년 블랙프라이데이에 패션플랫폼에서 할인이벤트 등을 해 상위어에 나왔습니다</a></li>
+<li class="chapter" data-level="4.1.3" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#기술발전과-코로나-이후에-나이키가-메타버스시장개발에-집중하게되었고"><i class="fa fa-check"></i><b>4.1.3</b> ★기술발전과, 코로나 이후에 나이키가 메타버스시장개발에 집중하게되었고,</a></li>
+<li class="chapter" data-level="4.1.4" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#중국에-메타버스-관련-유명-개발자가-있어-중국이-상위어로-같이-나왔습니다."><i class="fa fa-check"></i><b>4.1.4</b> ★중국에 메타버스 관련 유명 개발자가 있어 중국이 상위어로 같이 나왔습니다.</a></li>
+<li class="chapter" data-level="4.1.5" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#아디다스에는-나이키가-상위어인데-반해-나이키는-아디다스가-상위어로-나오지-않았습니다."><i class="fa fa-check"></i><b>4.1.5</b> ★아디다스에는 나이키가 상위어인데 반해 나이키는 아디다스가 상위어로 나오지 않았습니다.</a></li>
+<li class="chapter" data-level="4.1.6" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#카타르-월드컵의-공인구나-협업-브랜드가-아디다스로-선정됨"><i class="fa fa-check"></i><b>4.1.6</b> 카타르 월드컵의 공인구나 협업 브랜드가 아디다스로 선정됨</a></li>
+<li class="chapter" data-level="4.1.7" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#손흥민이-아디다스의-모델로-선정되어-상위어에-위치함"><i class="fa fa-check"></i><b>4.1.7</b> ★손흥민이 아디다스의 모델로 선정되어 상위어에 위치함</a></li>
+<li class="chapter" data-level="4.1.8" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#포토가-상위어에-있었으나-포토존이나-여러-연예인들의-사진을-포토로-지정해-관련이-없다고-판단하여-삭제함"><i class="fa fa-check"></i><b>4.1.8</b> ★포토가 상위어에 있었으나, 포토존이나 여러 연예인들의 사진을 포토로 지정해 관련이 없다고 판단하여, 삭제함</a></li>
+<li class="chapter" data-level="4.1.9" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#가장-대적되는-기업인-나이키또한-아디다스-총빈도-분석에서-상위어에-들정도로-기사가-많이-남"><i class="fa fa-check"></i><b>4.1.9</b> ★가장 대적되는 기업인 나이키또한 아디다스 총빈도 분석에서 상위어에 들정도로 기사가 많이 남</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#단어-총빈도-분석-정리"><i class="fa fa-check"></i><b>4.2</b> 단어 총빈도 분석 정리</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#정리하면-나이키에서-메타버스와-nft는-새로운-시장-개척지로-선정되어"><i class="fa fa-check"></i><b>4.2.1</b> 정리하면, 나이키에서 메타버스와 nft는 새로운 시장 개척지로 선정되어</a></li>
+<li class="chapter" data-level="4.2.2" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#그와-관련된-중국의-유명-개발자가-있어-상위어에-중국이-나오게-되었고"><i class="fa fa-check"></i><b>4.2.2</b> 그와 관련된 중국의 유명 개발자가 있어 상위어에 중국이 나오게 되었고,</a></li>
+<li class="chapter" data-level="4.2.3" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#아디다스는-카타르-월드컵-대표-브랜드로-선정되어-카타르-월드컵-관련-주제어가-많이나오는-반면"><i class="fa fa-check"></i><b>4.2.3</b> 아디다스는 카타르 월드컵 대표 브랜드로 선정되어 카타르 월드컵 관련 주제어가 많이나오는 반면</a></li>
+<li class="chapter" data-level="4.2.4" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#나이키는-상위어빈도가-크게-차이-나지않게-고루고루-분포되어-있고"><i class="fa fa-check"></i><b>4.2.4</b> 나이키는 상위어빈도가 크게 차이 나지않게 고루고루 분포되어 있고</a></li>
+<li class="chapter" data-level="4.2.5" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#그리고-같은-기간내에-나이키의-기사수가-아디다스보다-약-500개정도-더-많았습니다."><i class="fa fa-check"></i><b>4.2.5</b> 그리고 같은 기간내에 나이키의 기사수가 아디다스보다 약 500개정도 더 많았습니다.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html"><i class="fa fa-check"></i><b>5</b> 긍, 부정어 분석</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#긍정-부정어-분석"><i class="fa fa-check"></i><b>5.1</b> 긍정, 부정어 분석</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#두-브랜드-모두-긍정-단어-중-함께할인세일이-너무-많고-딱히-긍정적-의미로-쓰이지-않는-것-같아-삭제했습니다."><i class="fa fa-check"></i><b>5.1.1</b> 두 브랜드 모두 긍정 단어 중 함께,할인,세일이 너무 많고, 딱히 긍정적 의미로 쓰이지 않는 것 같아 삭제했습니다.</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#나이키-감성분석"><i class="fa fa-check"></i><b>5.2</b> 나이키 감성분석</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#나이키의-긍정어로-최고-인기-함께-등이-나왔고"><i class="fa fa-check"></i><b>5.2.1</b> ★ 나이키의 긍정어로 최고, 인기, 함께 등이 나왔고</a></li>
+<li class="chapter" data-level="5.2.2" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#부정어로는-살인-눈물-위기등이-나온-이유는-나이키-ceo의-과거-살인-행적-고백때문에-나온-것입니다."><i class="fa fa-check"></i><b>5.2.2</b> ★ 부정어로는 살인, 눈물, 위기등이 나온 이유는 나이키 ceo의 과거 살인 행적 고백때문에 나온 것입니다.</a></li>
+<li class="chapter" data-level="5.2.3" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#긍정어의-수가-대체로-많은-것을-보아-긍정적인-이미지로-보여지는-것을-알-수-있습니다."><i class="fa fa-check"></i><b>5.2.3</b> ★ 긍정어의 수가 대체로 많은 것을 보아 긍정적인 이미지로 보여지는 것을 알 수 있습니다.</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#아디다스-감성분석"><i class="fa fa-check"></i><b>5.3</b> 아디다스 감성분석</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#정리하면-나이키는-ceo의-살인을-고백한-것으로-부정적인-기사가-많이-나왔고-그에-반해-아디다스는-카타르월드컵에-공식협업-브랜드로-선정되는-등의-차이로-긍정부정어의-비율에서-차이가-난다고-볼-수-있었습니다."><i class="fa fa-check"></i><b>5.3.1</b> 정리하면, 나이키는 ceo의 살인을 고백한 것으로 부정적인 기사가 많이 나왔고, 그에 반해 아디다스는 카타르월드컵에 공식협업 브랜드로 선정되는 등의 차이로 긍정,부정어의 비율에서 차이가 난다고 볼 수 있었습니다.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="상대빈도분석-1.html"><a href="상대빈도분석-1.html"><i class="fa fa-check"></i><b>6</b> 상대빈도분석</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="상대빈도분석-1.html"><a href="상대빈도분석-1.html#분석결과"><i class="fa fa-check"></i><b>6.1</b> 분석결과</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="상대빈도분석-1.html"><a href="상대빈도분석-1.html#나이키에서는-메타버스-시장-관련-단어들이-많이-보이고"><i class="fa fa-check"></i><b>6.1.1</b> 나이키에서는 메타버스 시장 관련 단어들이 많이 보이고,</a></li>
+<li class="chapter" data-level="6.1.2" data-path="상대빈도분석-1.html"><a href="상대빈도분석-1.html#아디다스는-현재-진행되고-있는-카타르월드컵의-단어들이-많이-보입니다."><i class="fa fa-check"></i><b>6.1.2</b> 아디다스는 현재 진행되고 있는 카타르월드컵의 단어들이 많이 보입니다.</a></li>
+<li class="chapter" data-level="6.1.3" data-path="상대빈도분석-1.html"><a href="상대빈도분석-1.html#아디다스-관련-기사-상위어에만-나이키가-있는-것을-보아-아디다스가-나이키와-비교되고-있는-것을-알-수-있습니다."><i class="fa fa-check"></i><b>6.1.3</b> 아디다스 관련 기사 상위어에만 나이키가 있는 것을 보아 아디다스가 나이키와 비교되고 있는 것을 알 수 있습니다.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="토픽모델링.html"><a href="토픽모델링.html"><i class="fa fa-check"></i><b>7</b> 토픽모델링</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="토픽모델링.html"><a href="토픽모델링.html#아디다스-토픽모델링"><i class="fa fa-check"></i><b>7.1</b> 아디다스 토픽모델링</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="토픽모델링.html"><a href="토픽모델링.html#결과"><i class="fa fa-check"></i><b>7.1.1</b> 결과</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="토픽모델링.html"><a href="토픽모델링.html#나이키-토픽모델링"><i class="fa fa-check"></i><b>7.2</b> 나이키 토픽모델링</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="토픽모델링.html"><a href="토픽모델링.html#결과-1"><i class="fa fa-check"></i><b>7.2.1</b> 결과</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="토픽모델링.html"><a href="토픽모델링.html#정리"><i class="fa fa-check"></i><b>7.3</b> 정리</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="토픽모델링.html"><a href="토픽모델링.html#나이키는-현재-22년-초에-ceo의-살인과거를-고백하고-잠시-휘청했으나-다시-회복하는-모양을-보이고-있습니다."><i class="fa fa-check"></i><b>7.3.1</b> 나이키는 현재 22년 초에 ceo의 살인과거를 고백하고, 잠시 휘청했으나 다시 회복하는 모양을 보이고 있습니다.</a></li>
+<li class="chapter" data-level="7.3.2" data-path="토픽모델링.html"><a href="토픽모델링.html#코로나-이후-나이키는-메타버스-시장의-가능성을-보고-그-쪽-시장에-집중하는-경향을-보이고-있습니다."><i class="fa fa-check"></i><b>7.3.2</b> 코로나 이후 나이키는 메타버스 시장의 가능성을 보고 그 쪽 시장에 집중하는 경향을 보이고 있습니다.</a></li>
+<li class="chapter" data-level="7.3.3" data-path="토픽모델링.html"><a href="토픽모델링.html#현재는-아디다스가-카타르-월드컵에-공식-브랜드로-론칭되었으나-최근-다시-유니폼-쪽에서-나이키가-강세를-보이고-있습니다."><i class="fa fa-check"></i><b>7.3.3</b> 현재는 아디다스가 카타르 월드컵에 공식 브랜드로 론칭되었으나, 최근 다시 유니폼 쪽에서 나이키가 강세를 보이고 있습니다.</a></li>
+<li class="chapter" data-level="7.3.4" data-path="토픽모델링.html"><a href="토픽모델링.html#아디다스-기사에는-나이키가-자주-나오는-반면-나이키기사에서는-아디다스가-많이-나오지는-않았고"><i class="fa fa-check"></i><b>7.3.4</b> 아디다스 기사에는 나이키가 자주 나오는 반면, 나이키기사에서는 아디다스가 많이 나오지는 않았고,</a></li>
+<li class="chapter" data-level="7.3.5" data-path="토픽모델링.html"><a href="토픽모델링.html#이를-통해-전체적인-브랜드-인지도나-사람들의-선호도는-나이키가-더-높은-것으로-파악했습니다."><i class="fa fa-check"></i><b>7.3.5</b> 이를 통해 전체적인 브랜드 인지도나, 사람들의 선호도는 나이키가 더 높은 것으로 파악했습니다.</a></li>
+<li class="chapter" data-level="7.3.6" data-path="토픽모델링.html"><a href="토픽모델링.html#두-브랜드-모두-블랙프라이데이-기간이-다가오면-플랫폼에서-할인-행사등을-하는-기사가-많아지는-추세를-보여줬습니다."><i class="fa fa-check"></i><b>7.3.6</b> 두 브랜드 모두 블랙프라이데이 기간이 다가오면 플랫폼에서 할인 행사등을 하는 기사가 많아지는 추세를 보여줬습니다.</a></li>
+<li class="chapter" data-level="7.3.7" data-path="토픽모델링.html"><a href="토픽모델링.html#토픽모델링을-보면-아디다스는-협업-관련-론칭-관련이-많은-등의-여러-인지도를-높이기-위한-시도를-하고-있는-것을-알-수-있었습니다."><i class="fa fa-check"></i><b>7.3.7</b> 토픽모델링을 보면 아디다스는 협업 관련 론칭 관련이 많은 등의 여러 인지도를 높이기 위한 시도를 하고 있는 것을 알 수 있었습니다.</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="긍-부정어-분석" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> 긍, 부정어 분석<a href="긍-부정어-분석.html#긍-부정어-분석" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="긍정-부정어-분석" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> 긍정, 부정어 분석<a href="긍-부정어-분석.html#긍정-부정어-분석" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="긍-부정어-분석.html#cb76-1" aria-hidden="true" tabindex="-1"></a>m_s_df <span class="ot">&lt;-</span> m_df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb76-2"><a href="긍-부정어-분석.html#cb76-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text, <span class="at">token =</span> <span class="st">&quot;regex&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb76-3"><a href="긍-부정어-분석.html#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(senti_dic_df) <span class="sc">%&gt;%</span> </span>
+<span id="cb76-4"><a href="긍-부정어-분석.html#cb76-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, sScore, <span class="at">sort =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb76-5"><a href="긍-부정어-분석.html#cb76-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;할인&quot;</span>,<span class="st">&quot;세일&quot;</span>,<span class="st">&quot;이벤트&quot;</span>,<span class="st">&quot;함께&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb76-6"><a href="긍-부정어-분석.html#cb76-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb76-7"><a href="긍-부정어-분석.html#cb76-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder</span>(word, n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb76-8"><a href="긍-부정어-분석.html#cb76-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="긍-부정어-분석.html#cb78-1" aria-hidden="true" tabindex="-1"></a>m_s_df <span class="sc">%&gt;%</span> </span>
+<span id="cb78-2"><a href="긍-부정어-분석.html#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(n, word, <span class="at">fill =</span> sScore), <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb78-3"><a href="긍-부정어-분석.html#cb78-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;나이키감성분석&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="긍-부정어-분석.html#cb79-1" aria-hidden="true" tabindex="-1"></a>s_s_df <span class="ot">&lt;-</span> s_df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb79-2"><a href="긍-부정어-분석.html#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text, <span class="at">token =</span> <span class="st">&quot;regex&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb79-3"><a href="긍-부정어-분석.html#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(senti_dic_df) <span class="sc">%&gt;%</span> </span>
+<span id="cb79-4"><a href="긍-부정어-분석.html#cb79-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, sScore, <span class="at">sort =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb79-5"><a href="긍-부정어-분석.html#cb79-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;할인&quot;</span>,<span class="st">&quot;세일&quot;</span>,<span class="st">&quot;함께&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb79-6"><a href="긍-부정어-분석.html#cb79-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb79-7"><a href="긍-부정어-분석.html#cb79-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder</span>(word, n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb79-8"><a href="긍-부정어-분석.html#cb79-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="긍-부정어-분석.html#cb81-1" aria-hidden="true" tabindex="-1"></a>s_s_df <span class="sc">%&gt;%</span> </span>
+<span id="cb81-2"><a href="긍-부정어-분석.html#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(n, word, <span class="at">fill =</span> sScore), <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb81-3"><a href="긍-부정어-분석.html#cb81-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;아디다스 감성분석&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div id="두-브랜드-모두-긍정-단어-중-함께할인세일이-너무-많고-딱히-긍정적-의미로-쓰이지-않는-것-같아-삭제했습니다." class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> 두 브랜드 모두 긍정 단어 중 함께,할인,세일이 너무 많고, 딱히 긍정적 의미로 쓰이지 않는 것 같아 삭제했습니다.<a href="긍-부정어-분석.html#두-브랜드-모두-긍정-단어-중-함께할인세일이-너무-많고-딱히-긍정적-의미로-쓰이지-않는-것-같아-삭제했습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
+<div id="나이키-감성분석" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> 나이키 감성분석<a href="긍-부정어-분석.html#나이키-감성분석" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="긍-부정어-분석.html#cb82-1" aria-hidden="true" tabindex="-1"></a>m_df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb82-2"><a href="긍-부정어-분석.html#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">%&gt;%</span> </span>
+<span id="cb82-3"><a href="긍-부정어-분석.html#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(senti_dic_df) <span class="sc">%&gt;%</span> </span>
+<span id="cb82-4"><a href="긍-부정어-분석.html#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sScore =</span> <span class="fu">ifelse</span>(sScore <span class="sc">&gt;=</span> <span class="dv">1</span>, <span class="st">&quot;긍정&quot;</span>,</span>
+<span id="cb82-5"><a href="긍-부정어-분석.html#cb82-5" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">ifelse</span>(sScore <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span>, <span class="st">&quot;부정&quot;</span>, <span class="st">&quot;중립&quot;</span>))) </span></code></pre></div>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<pre><code>## # A tibble: 140,202 × 4
+##    ID    label word           sScore
+##    &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt; 
+##  1 1     0     뉴욕증시       &lt;NA&gt;  
+##  2 1     0     마감           &lt;NA&gt;  
+##  3 1     0     인플레이션     &lt;NA&gt;  
+##  4 1     0     우려           &lt;NA&gt;  
+##  5 1     0     s              &lt;NA&gt;  
+##  6 1     0     p              &lt;NA&gt;  
+##  7 1     0     500            &lt;NA&gt;  
+##  8 1     0     연중           &lt;NA&gt;  
+##  9 1     0     최저점         &lt;NA&gt;  
+## 10 1     0     뉴욕증권거래소 &lt;NA&gt;  
+## # … with 140,192 more rows</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="긍-부정어-분석.html#cb85-1" aria-hidden="true" tabindex="-1"></a>m_df2 <span class="sc">%&gt;%</span>   </span>
+<span id="cb85-2"><a href="긍-부정어-분석.html#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text, <span class="at">token =</span> <span class="st">&quot;regex&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb85-3"><a href="긍-부정어-분석.html#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(senti_dic_df) <span class="sc">%&gt;%</span> </span>
+<span id="cb85-4"><a href="긍-부정어-분석.html#cb85-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">emotion =</span> <span class="fu">ifelse</span>(sScore <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">&quot;긍정&quot;</span>, <span class="fu">ifelse</span>(sScore <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">&quot;부정&quot;</span>, <span class="st">&quot;중립&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb85-5"><a href="긍-부정어-분석.html#cb85-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label =</span> <span class="fu">ifelse</span>(sScore <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">&quot;1&quot;</span>, <span class="fu">ifelse</span>(sScore <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">&quot;0&quot;</span>, <span class="st">&quot;2&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb85-6"><a href="긍-부정어-분석.html#cb85-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(label <span class="sc">!=</span> <span class="st">&quot;중립&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb85-7"><a href="긍-부정어-분석.html#cb85-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;할인&quot;</span>,<span class="st">&quot;세일&quot;</span>,<span class="st">&quot;이벤트&quot;</span>,<span class="st">&quot;없다&quot;</span>,<span class="st">&quot;함께&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb85-8"><a href="긍-부정어-분석.html#cb85-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, emotion, label, <span class="at">sort =</span> T) <span class="sc">%&gt;%</span></span>
+<span id="cb85-9"><a href="긍-부정어-분석.html#cb85-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb85-10"><a href="긍-부정어-분석.html#cb85-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">label =</span> <span class="fu">ifelse</span>(label <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">&quot;긍정&quot;</span>, <span class="st">&quot;부정&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb85-11"><a href="긍-부정어-분석.html#cb85-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">15</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb85-12"><a href="긍-부정어-분석.html#cb85-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n,</span>
+<span id="cb85-13"><a href="긍-부정어-분석.html#cb85-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="fu">reorder</span>(word, n), <span class="at">fill =</span> label)) <span class="sc">+</span></span>
+<span id="cb85-14"><a href="긍-부정어-분석.html#cb85-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb85-15"><a href="긍-부정어-분석.html#cb85-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>label, <span class="at">scale =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb85-16"><a href="긍-부정어-분석.html#cb85-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;나이키 긍,부정어&quot;</span>)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div id="나이키의-긍정어로-최고-인기-함께-등이-나왔고" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> ★ 나이키의 긍정어로 최고, 인기, 함께 등이 나왔고<a href="긍-부정어-분석.html#나이키의-긍정어로-최고-인기-함께-등이-나왔고" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="부정어로는-살인-눈물-위기등이-나온-이유는-나이키-ceo의-과거-살인-행적-고백때문에-나온-것입니다." class="section level3 hasAnchor" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> ★ 부정어로는 살인, 눈물, 위기등이 나온 이유는 나이키 ceo의 과거 살인 행적 고백때문에 나온 것입니다.<a href="긍-부정어-분석.html#부정어로는-살인-눈물-위기등이-나온-이유는-나이키-ceo의-과거-살인-행적-고백때문에-나온-것입니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="긍정어의-수가-대체로-많은-것을-보아-긍정적인-이미지로-보여지는-것을-알-수-있습니다." class="section level3 hasAnchor" number="5.2.3">
+<h3><span class="header-section-number">5.2.3</span> ★ 긍정어의 수가 대체로 많은 것을 보아 긍정적인 이미지로 보여지는 것을 알 수 있습니다.<a href="긍-부정어-분석.html#긍정어의-수가-대체로-많은-것을-보아-긍정적인-이미지로-보여지는-것을-알-수-있습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
+<div id="아디다스-감성분석" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> 아디다스 감성분석<a href="긍-부정어-분석.html#아디다스-감성분석" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="긍-부정어-분석.html#cb87-1" aria-hidden="true" tabindex="-1"></a>s_df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb87-2"><a href="긍-부정어-분석.html#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">%&gt;%</span> </span>
+<span id="cb87-3"><a href="긍-부정어-분석.html#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;피해&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb87-4"><a href="긍-부정어-분석.html#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(senti_dic_df) <span class="sc">%&gt;%</span> </span>
+<span id="cb87-5"><a href="긍-부정어-분석.html#cb87-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sScore =</span> <span class="fu">ifelse</span>(sScore <span class="sc">&gt;=</span> <span class="dv">1</span>, <span class="st">&quot;긍정&quot;</span>,</span>
+<span id="cb87-6"><a href="긍-부정어-분석.html#cb87-6" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">ifelse</span>(sScore <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span>, <span class="st">&quot;부정&quot;</span>, <span class="st">&quot;중립&quot;</span>))) </span></code></pre></div>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<pre><code>## # A tibble: 66,415 × 4
+##    ID    label word     sScore
+##    &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; 
+##  1 1     0     엔데믹   &lt;NA&gt;  
+##  2 1     0     후       &lt;NA&gt;  
+##  3 1     0     첫       &lt;NA&gt;  
+##  4 1     0     가을세일 &lt;NA&gt;  
+##  5 1     0     풍성     &lt;NA&gt;  
+##  6 1     0     쇼핑     &lt;NA&gt;  
+##  7 1     0     후엔     &lt;NA&gt;  
+##  8 1     0     문화행사 &lt;NA&gt;  
+##  9 1     0     즐기세요 &lt;NA&gt;  
+## 10 1     0     img03    &lt;NA&gt;  
+## # … with 66,405 more rows</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="긍-부정어-분석.html#cb90-1" aria-hidden="true" tabindex="-1"></a>s_df2 <span class="sc">%&gt;%</span>   </span>
+<span id="cb90-2"><a href="긍-부정어-분석.html#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text, <span class="at">token =</span> <span class="st">&quot;regex&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb90-3"><a href="긍-부정어-분석.html#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(senti_dic_df) <span class="sc">%&gt;%</span> </span>
+<span id="cb90-4"><a href="긍-부정어-분석.html#cb90-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">emotion =</span> <span class="fu">ifelse</span>(sScore <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">&quot;긍정&quot;</span>, <span class="fu">ifelse</span>(sScore <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">&quot;부정&quot;</span>, <span class="st">&quot;중립&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb90-5"><a href="긍-부정어-분석.html#cb90-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label =</span> <span class="fu">ifelse</span>(sScore <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">&quot;1&quot;</span>, <span class="fu">ifelse</span>(sScore <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">&quot;0&quot;</span>, <span class="st">&quot;2&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb90-6"><a href="긍-부정어-분석.html#cb90-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(label <span class="sc">!=</span> <span class="st">&quot;중립&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb90-7"><a href="긍-부정어-분석.html#cb90-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;할인&quot;</span>,<span class="st">&quot;세일&quot;</span>,<span class="st">&quot;이벤트&quot;</span>,<span class="st">&quot;함께&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb90-8"><a href="긍-부정어-분석.html#cb90-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, emotion, label, <span class="at">sort =</span> T) <span class="sc">%&gt;%</span></span>
+<span id="cb90-9"><a href="긍-부정어-분석.html#cb90-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb90-10"><a href="긍-부정어-분석.html#cb90-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">label =</span> <span class="fu">ifelse</span>(label <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">&quot;긍정&quot;</span>, <span class="st">&quot;부정&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb90-11"><a href="긍-부정어-분석.html#cb90-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">15</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb90-12"><a href="긍-부정어-분석.html#cb90-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n,</span>
+<span id="cb90-13"><a href="긍-부정어-분석.html#cb90-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="fu">reorder</span>(word, n), <span class="at">fill =</span> label)) <span class="sc">+</span></span>
+<span id="cb90-14"><a href="긍-부정어-분석.html#cb90-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb90-15"><a href="긍-부정어-분석.html#cb90-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>label, <span class="at">scale =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb90-16"><a href="긍-부정어-분석.html#cb90-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;아디다스 긍,부정어&quot;</span>)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+### ★ 아디다스의 긍정어로 최고, 세계적인, 젊은등이 나이키와 같이 나왔고
+### ★ 부정어로 비난, 다툼을 등이 나온 이유는 아디다스 모델인 칸예 웨스트의 혐오발언으로 계약을 해지해서 입니다.
+### ★ 나이키와의 기사수의 차이가 있지만, 아디다스의 긍정, 부정어의 비율에서 긍정적인 기사수가 좀 더 높은 것으로 파악됩니다.</p>
+<div id="정리하면-나이키는-ceo의-살인을-고백한-것으로-부정적인-기사가-많이-나왔고-그에-반해-아디다스는-카타르월드컵에-공식협업-브랜드로-선정되는-등의-차이로-긍정부정어의-비율에서-차이가-난다고-볼-수-있었습니다." class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> 정리하면, 나이키는 ceo의 살인을 고백한 것으로 부정적인 기사가 많이 나왔고, 그에 반해 아디다스는 카타르월드컵에 공식협업 브랜드로 선정되는 등의 차이로 긍정,부정어의 비율에서 차이가 난다고 볼 수 있었습니다.<a href="긍-부정어-분석.html#정리하면-나이키는-ceo의-살인을-고백한-것으로-부정적인-기사가-많이-나왔고-그에-반해-아디다스는-카타르월드컵에-공식협업-브랜드로-선정되는-등의-차이로-긍정부정어의-비율에서-차이가-난다고-볼-수-있었습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="단어-총빈도-분석.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="상대빈도분석-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

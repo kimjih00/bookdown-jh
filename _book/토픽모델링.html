@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 토픽모델링 | A Minimal Book Example</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 토픽모델링 | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 토픽모델링 | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Yihui Xie" />
+
+
+<meta name="date" content="2022-12-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="상대빈도분석-1.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> 목차</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#주제선정이유-및-데이터셋-설정"><i class="fa fa-check"></i><b>1.1</b> 1. 주제선정이유 및 데이터셋 설정</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#단어-총빈도분석"><i class="fa fa-check"></i><b>1.2</b> 2. 단어 총빈도분석</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#단어-감성사전-분석"><i class="fa fa-check"></i><b>1.3</b> 3. 단어 감성사전 분석</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#상대빈도분석"><i class="fa fa-check"></i><b>1.4</b> 4. 상대빈도분석</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#토픽모델링-및-정리"><i class="fa fa-check"></i><b>1.5</b> 5. 토픽모델링 및 정리</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="주제선정이유.html"><a href="주제선정이유.html"><i class="fa fa-check"></i><b>2</b> 주제선정이유</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="주제선정이유.html"><a href="주제선정이유.html#나이키와-아디다스가-대립-브랜드이고-각-브랜드가-어떤-홍보활동이나-시장을-노리고-있는지-알아보고-싶어-그-차이를-분석해-보자-주제를-선정하게-되었습니다."><i class="fa fa-check"></i><b>2.1</b> 나이키와 아디다스가 대립 브랜드이고, 각 브랜드가 어떤 홍보활동이나 시장을 노리고 있는지 알아보고 싶어 그 차이를 분석해 보자 주제를 선정하게 되었습니다.</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="데이터셋-설정.html"><a href="데이터셋-설정.html"><i class="fa fa-check"></i><b>3</b> 데이터셋 설정</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="데이터셋-설정.html"><a href="데이터셋-설정.html#빅카인즈에서-각-브랜드별-2021.10.01현재까지의-기사들을-데이터-수집하였습니다."><i class="fa fa-check"></i><b>3.1</b> 빅카인즈에서 각 브랜드별 2021.10.01~현재까지의 기사들을 데이터 수집하였습니다.</a></li>
+<li class="chapter" data-level="3.2" data-path="데이터셋-설정.html"><a href="데이터셋-설정.html#내용을-분석하는데-도움을-주는-패키지와-감성사전을-설치해-분석을-실시하려합니다."><i class="fa fa-check"></i><b>3.2</b> 내용을 분석하는데 도움을 주는 패키지와 감성사전을 설치해 분석을 실시하려합니다.</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html"><i class="fa fa-check"></i><b>4</b> 단어 총빈도 분석</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#나이키-단어-총빈도-분석"><i class="fa fa-check"></i><b>4.1</b> 나이키 단어 총빈도 분석</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#러시아가-상위-주제어에-있었으나-그-수가-너무-많아-후에-분석에-방해되어-삭제했습니다."><i class="fa fa-check"></i><b>4.1.1</b> ★러시아가 상위 주제어에 있었으나, 그 수가 너무 많아 후에 분석에 방해되어 삭제했습니다.</a></li>
+<li class="chapter" data-level="4.1.2" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#매년-블랙프라이데이에-패션플랫폼에서-할인이벤트-등을-해-상위어에-나왔습니다"><i class="fa fa-check"></i><b>4.1.2</b> ★매년 블랙프라이데이에 패션플랫폼에서 할인이벤트 등을 해 상위어에 나왔습니다</a></li>
+<li class="chapter" data-level="4.1.3" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#기술발전과-코로나-이후에-나이키가-메타버스시장개발에-집중하게되었고"><i class="fa fa-check"></i><b>4.1.3</b> ★기술발전과, 코로나 이후에 나이키가 메타버스시장개발에 집중하게되었고,</a></li>
+<li class="chapter" data-level="4.1.4" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#중국에-메타버스-관련-유명-개발자가-있어-중국이-상위어로-같이-나왔습니다."><i class="fa fa-check"></i><b>4.1.4</b> ★중국에 메타버스 관련 유명 개발자가 있어 중국이 상위어로 같이 나왔습니다.</a></li>
+<li class="chapter" data-level="4.1.5" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#아디다스에는-나이키가-상위어인데-반해-나이키는-아디다스가-상위어로-나오지-않았습니다."><i class="fa fa-check"></i><b>4.1.5</b> ★아디다스에는 나이키가 상위어인데 반해 나이키는 아디다스가 상위어로 나오지 않았습니다.</a></li>
+<li class="chapter" data-level="4.1.6" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#카타르-월드컵의-공인구나-협업-브랜드가-아디다스로-선정됨"><i class="fa fa-check"></i><b>4.1.6</b> 카타르 월드컵의 공인구나 협업 브랜드가 아디다스로 선정됨</a></li>
+<li class="chapter" data-level="4.1.7" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#손흥민이-아디다스의-모델로-선정되어-상위어에-위치함"><i class="fa fa-check"></i><b>4.1.7</b> ★손흥민이 아디다스의 모델로 선정되어 상위어에 위치함</a></li>
+<li class="chapter" data-level="4.1.8" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#포토가-상위어에-있었으나-포토존이나-여러-연예인들의-사진을-포토로-지정해-관련이-없다고-판단하여-삭제함"><i class="fa fa-check"></i><b>4.1.8</b> ★포토가 상위어에 있었으나, 포토존이나 여러 연예인들의 사진을 포토로 지정해 관련이 없다고 판단하여, 삭제함</a></li>
+<li class="chapter" data-level="4.1.9" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#가장-대적되는-기업인-나이키또한-아디다스-총빈도-분석에서-상위어에-들정도로-기사가-많이-남"><i class="fa fa-check"></i><b>4.1.9</b> ★가장 대적되는 기업인 나이키또한 아디다스 총빈도 분석에서 상위어에 들정도로 기사가 많이 남</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#단어-총빈도-분석-정리"><i class="fa fa-check"></i><b>4.2</b> 단어 총빈도 분석 정리</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#정리하면-나이키에서-메타버스와-nft는-새로운-시장-개척지로-선정되어"><i class="fa fa-check"></i><b>4.2.1</b> 정리하면, 나이키에서 메타버스와 nft는 새로운 시장 개척지로 선정되어</a></li>
+<li class="chapter" data-level="4.2.2" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#그와-관련된-중국의-유명-개발자가-있어-상위어에-중국이-나오게-되었고"><i class="fa fa-check"></i><b>4.2.2</b> 그와 관련된 중국의 유명 개발자가 있어 상위어에 중국이 나오게 되었고,</a></li>
+<li class="chapter" data-level="4.2.3" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#아디다스는-카타르-월드컵-대표-브랜드로-선정되어-카타르-월드컵-관련-주제어가-많이나오는-반면"><i class="fa fa-check"></i><b>4.2.3</b> 아디다스는 카타르 월드컵 대표 브랜드로 선정되어 카타르 월드컵 관련 주제어가 많이나오는 반면</a></li>
+<li class="chapter" data-level="4.2.4" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#나이키는-상위어빈도가-크게-차이-나지않게-고루고루-분포되어-있고"><i class="fa fa-check"></i><b>4.2.4</b> 나이키는 상위어빈도가 크게 차이 나지않게 고루고루 분포되어 있고</a></li>
+<li class="chapter" data-level="4.2.5" data-path="단어-총빈도-분석.html"><a href="단어-총빈도-분석.html#그리고-같은-기간내에-나이키의-기사수가-아디다스보다-약-500개정도-더-많았습니다."><i class="fa fa-check"></i><b>4.2.5</b> 그리고 같은 기간내에 나이키의 기사수가 아디다스보다 약 500개정도 더 많았습니다.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html"><i class="fa fa-check"></i><b>5</b> 긍, 부정어 분석</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#긍정-부정어-분석"><i class="fa fa-check"></i><b>5.1</b> 긍정, 부정어 분석</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#두-브랜드-모두-긍정-단어-중-함께할인세일이-너무-많고-딱히-긍정적-의미로-쓰이지-않는-것-같아-삭제했습니다."><i class="fa fa-check"></i><b>5.1.1</b> 두 브랜드 모두 긍정 단어 중 함께,할인,세일이 너무 많고, 딱히 긍정적 의미로 쓰이지 않는 것 같아 삭제했습니다.</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#나이키-감성분석"><i class="fa fa-check"></i><b>5.2</b> 나이키 감성분석</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#나이키의-긍정어로-최고-인기-함께-등이-나왔고"><i class="fa fa-check"></i><b>5.2.1</b> ★ 나이키의 긍정어로 최고, 인기, 함께 등이 나왔고</a></li>
+<li class="chapter" data-level="5.2.2" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#부정어로는-살인-눈물-위기등이-나온-이유는-나이키-ceo의-과거-살인-행적-고백때문에-나온-것입니다."><i class="fa fa-check"></i><b>5.2.2</b> ★ 부정어로는 살인, 눈물, 위기등이 나온 이유는 나이키 ceo의 과거 살인 행적 고백때문에 나온 것입니다.</a></li>
+<li class="chapter" data-level="5.2.3" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#긍정어의-수가-대체로-많은-것을-보아-긍정적인-이미지로-보여지는-것을-알-수-있습니다."><i class="fa fa-check"></i><b>5.2.3</b> ★ 긍정어의 수가 대체로 많은 것을 보아 긍정적인 이미지로 보여지는 것을 알 수 있습니다.</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#아디다스-감성분석"><i class="fa fa-check"></i><b>5.3</b> 아디다스 감성분석</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="긍-부정어-분석.html"><a href="긍-부정어-분석.html#정리하면-나이키는-ceo의-살인을-고백한-것으로-부정적인-기사가-많이-나왔고-그에-반해-아디다스는-카타르월드컵에-공식협업-브랜드로-선정되는-등의-차이로-긍정부정어의-비율에서-차이가-난다고-볼-수-있었습니다."><i class="fa fa-check"></i><b>5.3.1</b> 정리하면, 나이키는 ceo의 살인을 고백한 것으로 부정적인 기사가 많이 나왔고, 그에 반해 아디다스는 카타르월드컵에 공식협업 브랜드로 선정되는 등의 차이로 긍정,부정어의 비율에서 차이가 난다고 볼 수 있었습니다.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="상대빈도분석-1.html"><a href="상대빈도분석-1.html"><i class="fa fa-check"></i><b>6</b> 상대빈도분석</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="상대빈도분석-1.html"><a href="상대빈도분석-1.html#분석결과"><i class="fa fa-check"></i><b>6.1</b> 분석결과</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="상대빈도분석-1.html"><a href="상대빈도분석-1.html#나이키에서는-메타버스-시장-관련-단어들이-많이-보이고"><i class="fa fa-check"></i><b>6.1.1</b> 나이키에서는 메타버스 시장 관련 단어들이 많이 보이고,</a></li>
+<li class="chapter" data-level="6.1.2" data-path="상대빈도분석-1.html"><a href="상대빈도분석-1.html#아디다스는-현재-진행되고-있는-카타르월드컵의-단어들이-많이-보입니다."><i class="fa fa-check"></i><b>6.1.2</b> 아디다스는 현재 진행되고 있는 카타르월드컵의 단어들이 많이 보입니다.</a></li>
+<li class="chapter" data-level="6.1.3" data-path="상대빈도분석-1.html"><a href="상대빈도분석-1.html#아디다스-관련-기사-상위어에만-나이키가-있는-것을-보아-아디다스가-나이키와-비교되고-있는-것을-알-수-있습니다."><i class="fa fa-check"></i><b>6.1.3</b> 아디다스 관련 기사 상위어에만 나이키가 있는 것을 보아 아디다스가 나이키와 비교되고 있는 것을 알 수 있습니다.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="토픽모델링.html"><a href="토픽모델링.html"><i class="fa fa-check"></i><b>7</b> 토픽모델링</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="토픽모델링.html"><a href="토픽모델링.html#아디다스-토픽모델링"><i class="fa fa-check"></i><b>7.1</b> 아디다스 토픽모델링</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="토픽모델링.html"><a href="토픽모델링.html#결과"><i class="fa fa-check"></i><b>7.1.1</b> 결과</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="토픽모델링.html"><a href="토픽모델링.html#나이키-토픽모델링"><i class="fa fa-check"></i><b>7.2</b> 나이키 토픽모델링</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="토픽모델링.html"><a href="토픽모델링.html#결과-1"><i class="fa fa-check"></i><b>7.2.1</b> 결과</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="토픽모델링.html"><a href="토픽모델링.html#정리"><i class="fa fa-check"></i><b>7.3</b> 정리</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="토픽모델링.html"><a href="토픽모델링.html#나이키는-현재-22년-초에-ceo의-살인과거를-고백하고-잠시-휘청했으나-다시-회복하는-모양을-보이고-있습니다."><i class="fa fa-check"></i><b>7.3.1</b> 나이키는 현재 22년 초에 ceo의 살인과거를 고백하고, 잠시 휘청했으나 다시 회복하는 모양을 보이고 있습니다.</a></li>
+<li class="chapter" data-level="7.3.2" data-path="토픽모델링.html"><a href="토픽모델링.html#코로나-이후-나이키는-메타버스-시장의-가능성을-보고-그-쪽-시장에-집중하는-경향을-보이고-있습니다."><i class="fa fa-check"></i><b>7.3.2</b> 코로나 이후 나이키는 메타버스 시장의 가능성을 보고 그 쪽 시장에 집중하는 경향을 보이고 있습니다.</a></li>
+<li class="chapter" data-level="7.3.3" data-path="토픽모델링.html"><a href="토픽모델링.html#현재는-아디다스가-카타르-월드컵에-공식-브랜드로-론칭되었으나-최근-다시-유니폼-쪽에서-나이키가-강세를-보이고-있습니다."><i class="fa fa-check"></i><b>7.3.3</b> 현재는 아디다스가 카타르 월드컵에 공식 브랜드로 론칭되었으나, 최근 다시 유니폼 쪽에서 나이키가 강세를 보이고 있습니다.</a></li>
+<li class="chapter" data-level="7.3.4" data-path="토픽모델링.html"><a href="토픽모델링.html#아디다스-기사에는-나이키가-자주-나오는-반면-나이키기사에서는-아디다스가-많이-나오지는-않았고"><i class="fa fa-check"></i><b>7.3.4</b> 아디다스 기사에는 나이키가 자주 나오는 반면, 나이키기사에서는 아디다스가 많이 나오지는 않았고,</a></li>
+<li class="chapter" data-level="7.3.5" data-path="토픽모델링.html"><a href="토픽모델링.html#이를-통해-전체적인-브랜드-인지도나-사람들의-선호도는-나이키가-더-높은-것으로-파악했습니다."><i class="fa fa-check"></i><b>7.3.5</b> 이를 통해 전체적인 브랜드 인지도나, 사람들의 선호도는 나이키가 더 높은 것으로 파악했습니다.</a></li>
+<li class="chapter" data-level="7.3.6" data-path="토픽모델링.html"><a href="토픽모델링.html#두-브랜드-모두-블랙프라이데이-기간이-다가오면-플랫폼에서-할인-행사등을-하는-기사가-많아지는-추세를-보여줬습니다."><i class="fa fa-check"></i><b>7.3.6</b> 두 브랜드 모두 블랙프라이데이 기간이 다가오면 플랫폼에서 할인 행사등을 하는 기사가 많아지는 추세를 보여줬습니다.</a></li>
+<li class="chapter" data-level="7.3.7" data-path="토픽모델링.html"><a href="토픽모델링.html#토픽모델링을-보면-아디다스는-협업-관련-론칭-관련이-많은-등의-여러-인지도를-높이기-위한-시도를-하고-있는-것을-알-수-있었습니다."><i class="fa fa-check"></i><b>7.3.7</b> 토픽모델링을 보면 아디다스는 협업 관련 론칭 관련이 많은 등의 여러 인지도를 높이기 위한 시도를 하고 있는 것을 알 수 있었습니다.</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="토픽모델링" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> 토픽모델링<a href="토픽모델링.html#토픽모델링" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="아디다스-토픽모델링" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> 아디다스 토픽모델링<a href="토픽모델링.html#아디다스-토픽모델링" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="토픽모델링.html#cb96-1" aria-hidden="true" tabindex="-1"></a>s_ttk <span class="ot">&lt;-</span> s_df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb96-2"><a href="토픽모델링.html#cb96-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text, <span class="st">&quot;[^(</span><span class="sc">\\</span><span class="st">w+|</span><span class="sc">\\</span><span class="st">s)]&quot;</span>)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb96-3"><a href="토픽모델링.html#cb96-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text, <span class="at">token =</span> <span class="st">&quot;regex&quot;</span>, <span class="at">drop =</span> F)</span>
+<span id="cb96-4"><a href="토픽모델링.html#cb96-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-5"><a href="토픽모델링.html#cb96-5" aria-hidden="true" tabindex="-1"></a>s_ttk <span class="ot">&lt;-</span> </span>
+<span id="cb96-6"><a href="토픽모델링.html#cb96-6" aria-hidden="true" tabindex="-1"></a>s_ttk <span class="sc">%&gt;%</span></span>
+<span id="cb96-7"><a href="토픽모델링.html#cb96-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(word, <span class="st">&quot;[:alpha:]+&quot;</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb96-8"><a href="토픽모델링.html#cb96-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;아디다스&quot;</span>,<span class="st">&quot;있다&quot;</span>,<span class="st">&quot;일까지&quot;</span>,<span class="st">&quot;참석해&quot;</span>,<span class="st">&quot;열린&quot;</span>,<span class="st">&quot;오는&quot;</span>))</span>
+<span id="cb96-9"><a href="토픽모델링.html#cb96-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-10"><a href="토픽모델링.html#cb96-10" aria-hidden="true" tabindex="-1"></a>s_cdf <span class="ot">&lt;-</span> s_ttk <span class="sc">%&gt;%</span></span>
+<span id="cb96-11"><a href="토픽모델링.html#cb96-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
+<span id="cb96-12"><a href="토픽모델링.html#cb96-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">text2 =</span> <span class="fu">str_flatten</span>(word, <span class="st">&quot; &quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb96-13"><a href="토픽모델링.html#cb96-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb96-14"><a href="토픽모델링.html#cb96-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(s_df2, <span class="at">by =</span> <span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb96-15"><a href="토픽모델링.html#cb96-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-16"><a href="토픽모델링.html#cb96-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stm)</span></code></pre></div>
+<pre><code>## stm v1.3.6 successfully loaded. See ?stm for help. 
+##  Papers, resources, and other materials at structuraltopicmodel.com</code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="토픽모델링.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tm)</span></code></pre></div>
+<pre><code>## 필요한 패키지를 로딩중입니다: NLP</code></pre>
+<pre><code>## 
+## 다음의 패키지를 부착합니다: &#39;NLP&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     annotate</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="토픽모델링.html#cb102-1" aria-hidden="true" tabindex="-1"></a>processed <span class="ot">&lt;-</span> s_df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb102-2"><a href="토픽모델링.html#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textProcessor</span>(</span>
+<span id="cb102-3"><a href="토픽모델링.html#cb102-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">documents =</span> s_cdf<span class="sc">$</span>text2,</span>
+<span id="cb102-4"><a href="토픽모델링.html#cb102-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">metadata =</span> .,</span>
+<span id="cb102-5"><a href="토픽모델링.html#cb102-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">wordLengths =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="cn">Inf</span>))</span></code></pre></div>
+<pre><code>## Building corpus... 
+## Converting to Lower Case... 
+## Removing punctuation... 
+## Removing stopwords... 
+## Removing numbers... 
+## Stemming... 
+## Creating Output...</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="토픽모델링.html#cb104-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> </span>
+<span id="cb104-2"><a href="토픽모델링.html#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prepDocuments</span>(processed<span class="sc">$</span>documents,</span>
+<span id="cb104-3"><a href="토픽모델링.html#cb104-3" aria-hidden="true" tabindex="-1"></a>                     processed<span class="sc">$</span>vocab,</span>
+<span id="cb104-4"><a href="토픽모델링.html#cb104-4" aria-hidden="true" tabindex="-1"></a>                     processed<span class="sc">$</span>meta,</span>
+<span id="cb104-5"><a href="토픽모델링.html#cb104-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">lower.thresh =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="토픽모델링.html#cb105-1" aria-hidden="true" tabindex="-1"></a>docs <span class="ot">&lt;-</span> out<span class="sc">$</span>documents</span>
+<span id="cb105-2"><a href="토픽모델링.html#cb105-2" aria-hidden="true" tabindex="-1"></a>vocab <span class="ot">&lt;-</span> out<span class="sc">$</span>vocab</span>
+<span id="cb105-3"><a href="토픽모델링.html#cb105-3" aria-hidden="true" tabindex="-1"></a>meta <span class="ot">&lt;-</span> out<span class="sc">$</span>meta</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="토픽모델링.html#cb106-1" aria-hidden="true" tabindex="-1"></a>topicN <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="토픽모델링.html#cb107-1" aria-hidden="true" tabindex="-1"></a>s_stm_fit <span class="ot">&lt;-</span></span>
+<span id="cb107-2"><a href="토픽모델링.html#cb107-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">stm</span>(</span>
+<span id="cb107-3"><a href="토픽모델링.html#cb107-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">documents =</span> docs,</span>
+<span id="cb107-4"><a href="토픽모델링.html#cb107-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">vocab =</span> vocab,</span>
+<span id="cb107-5"><a href="토픽모델링.html#cb107-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">K =</span> <span class="dv">6</span>,</span>
+<span id="cb107-6"><a href="토픽모델링.html#cb107-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> meta,</span>
+<span id="cb107-7"><a href="토픽모델링.html#cb107-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.em.its =</span> <span class="dv">75</span>,</span>
+<span id="cb107-8"><a href="토픽모델링.html#cb107-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">init.type =</span> <span class="st">&quot;Spectral&quot;</span>,</span>
+<span id="cb107-9"><a href="토픽모델링.html#cb107-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> <span class="dv">25</span>,</span>
+<span id="cb107-10"><a href="토픽모델링.html#cb107-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">verbose =</span> F</span>
+<span id="cb107-11"><a href="토픽모델링.html#cb107-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div id="결과" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> 결과<a href="토픽모델링.html#결과" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="토픽모델링.html#cb108-1" aria-hidden="true" tabindex="-1"></a>s_topic_name <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">topic =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb108-2"><a href="토픽모델링.html#cb108-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="fu">c</span>(<span class="st">&quot;1. 카타르 월드컵&quot;</span>,</span>
+<span id="cb108-3"><a href="토픽모델링.html#cb108-3" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;2. 코로나 이후&quot;</span>,</span>
+<span id="cb108-4"><a href="토픽모델링.html#cb108-4" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;3. 할인 행사&quot;</span>,</span>
+<span id="cb108-5"><a href="토픽모델링.html#cb108-5" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;4. 아이돌 계약&quot;</span>,</span>
+<span id="cb108-6"><a href="토픽모델링.html#cb108-6" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;5.&quot;</span>,</span>
+<span id="cb108-7"><a href="토픽모델링.html#cb108-7" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;6. 메타버스시장&quot;</span>))</span>
+<span id="cb108-8"><a href="토픽모델링.html#cb108-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-9"><a href="토픽모델링.html#cb108-9" aria-hidden="true" tabindex="-1"></a>s_td_beta <span class="ot">&lt;-</span> s_stm_fit <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">&#39;beta&#39;</span>)</span>
+<span id="cb108-10"><a href="토픽모델링.html#cb108-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-11"><a href="토픽모델링.html#cb108-11" aria-hidden="true" tabindex="-1"></a>s_topic_name <span class="ot">&lt;-</span> s_td_beta <span class="sc">%&gt;%</span> </span>
+<span id="cb108-12"><a href="토픽모델링.html#cb108-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-13"><a href="토픽모델링.html#cb108-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(beta, <span class="at">n =</span> <span class="dv">7</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-14"><a href="토픽모델링.html#cb108-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(s_topic_name, <span class="at">by =</span> <span class="st">&quot;topic&quot;</span>)</span>
+<span id="cb108-15"><a href="토픽모델링.html#cb108-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-16"><a href="토픽모델링.html#cb108-16" aria-hidden="true" tabindex="-1"></a>s_topic_name <span class="sc">%&gt;%</span> </span>
+<span id="cb108-17"><a href="토픽모델링.html#cb108-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> beta, </span>
+<span id="cb108-18"><a href="토픽모델링.html#cb108-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="fu">reorder_within</span>(term, beta, name),  </span>
+<span id="cb108-19"><a href="토픽모델링.html#cb108-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> name)) <span class="sc">+</span></span>
+<span id="cb108-20"><a href="토픽모델링.html#cb108-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb108-21"><a href="토픽모델링.html#cb108-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb108-22"><a href="토픽모델링.html#cb108-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reordered</span>() <span class="sc">+</span>                             </span>
+<span id="cb108-23"><a href="토픽모델링.html#cb108-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="st">&quot;단어 확률분포: &quot;</span><span class="sc">~</span>beta), <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb108-24"><a href="토픽모델링.html#cb108-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;수자원 주제별 단어 확률 분포&quot;</span>) <span class="sc">+</span></span>
+<span id="cb108-25"><a href="토픽모델링.html#cb108-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="토픽모델링.html#cb109-1" aria-hidden="true" tabindex="-1"></a>s_td_gamma <span class="ot">&lt;-</span> s_stm_fit <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">&quot;gamma&quot;</span>) </span>
+<span id="cb109-2"><a href="토픽모델링.html#cb109-2" aria-hidden="true" tabindex="-1"></a>s_top_terms <span class="ot">&lt;-</span> </span>
+<span id="cb109-3"><a href="토픽모델링.html#cb109-3" aria-hidden="true" tabindex="-1"></a>s_td_beta <span class="sc">%&gt;%</span> </span>
+<span id="cb109-4"><a href="토픽모델링.html#cb109-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-5"><a href="토픽모델링.html#cb109-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(beta, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-6"><a href="토픽모델링.html#cb109-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(topic, term) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-7"><a href="토픽모델링.html#cb109-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">terms =</span> <span class="fu">str_flatten</span>(term, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>)) </span>
+<span id="cb109-8"><a href="토픽모델링.html#cb109-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-9"><a href="토픽모델링.html#cb109-9" aria-hidden="true" tabindex="-1"></a>s_gamma_terms <span class="ot">&lt;-</span> </span>
+<span id="cb109-10"><a href="토픽모델링.html#cb109-10" aria-hidden="true" tabindex="-1"></a>s_td_gamma <span class="sc">%&gt;%</span> </span>
+<span id="cb109-11"><a href="토픽모델링.html#cb109-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-12"><a href="토픽모델링.html#cb109-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">gamma =</span> <span class="fu">mean</span>(gamma)) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-13"><a href="토픽모델링.html#cb109-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(s_top_terms, <span class="at">by =</span> <span class="st">&#39;topic&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-14"><a href="토픽모델링.html#cb109-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(s_topic_name, <span class="at">by =</span> <span class="st">&#39;topic&#39;</span>)</span>
+<span id="cb109-15"><a href="토픽모델링.html#cb109-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb109-16"><a href="토픽모델링.html#cb109-16" aria-hidden="true" tabindex="-1"></a>s_gamma_terms <span class="sc">%&gt;%</span> </span>
+<span id="cb109-17"><a href="토픽모델링.html#cb109-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb109-18"><a href="토픽모델링.html#cb109-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> gamma, <span class="at">y =</span> <span class="fu">reorder</span>(name, gamma), <span class="at">fill =</span> name)) <span class="sc">+</span></span>
+<span id="cb109-19"><a href="토픽모델링.html#cb109-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb109-20"><a href="토픽모델링.html#cb109-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(gamma, <span class="dv">2</span>)), </span>
+<span id="cb109-21"><a href="토픽모델링.html#cb109-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">1.15</span>) <span class="sc">+</span>                </span>
+<span id="cb109-22"><a href="토픽모델링.html#cb109-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> terms), </span>
+<span id="cb109-23"><a href="토픽모델링.html#cb109-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.05</span>) <span class="sc">+</span>              </span>
+<span id="cb109-24"><a href="토픽모델링.html#cb109-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="st">&quot;문서 확률분포&quot;</span><span class="sc">~</span>(gamma)), <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb109-25"><a href="토픽모델링.html#cb109-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;아디다스 토픽 상위 주제어&quot;</span>) <span class="sc">+</span></span>
+<span id="cb109-26"><a href="토픽모델링.html#cb109-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+#### 아디다스는 카타르 월드컵과, 아이돌과의 계약등이 눈에 띄는 토픽이었습니다.
+#### 아디다스도 메타버스 시장에 뛰어들고 있지만, 그 수가 나이키에 비해 부족합니다.
+#### 아디다스는 구찌 같은 브랜드나, 아이돌과 협업하는 등의 노력을 볼 수 있었습니다</p>
+</div>
+</div>
+<div id="나이키-토픽모델링" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> 나이키 토픽모델링<a href="토픽모델링.html#나이키-토픽모델링" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="토픽모델링.html#cb110-1" aria-hidden="true" tabindex="-1"></a>m_ttk <span class="ot">&lt;-</span> m_df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb110-2"><a href="토픽모델링.html#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text, <span class="st">&quot;[^(</span><span class="sc">\\</span><span class="st">w+|</span><span class="sc">\\</span><span class="st">s)]&quot;</span>)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb110-3"><a href="토픽모델링.html#cb110-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text, <span class="at">token =</span> <span class="st">&quot;regex&quot;</span>, <span class="at">drop =</span> F)</span>
+<span id="cb110-4"><a href="토픽모델링.html#cb110-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-5"><a href="토픽모델링.html#cb110-5" aria-hidden="true" tabindex="-1"></a>m_ttk <span class="ot">&lt;-</span> </span>
+<span id="cb110-6"><a href="토픽모델링.html#cb110-6" aria-hidden="true" tabindex="-1"></a>m_ttk <span class="sc">%&gt;%</span></span>
+<span id="cb110-7"><a href="토픽모델링.html#cb110-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(word, <span class="st">&quot;[:alpha:]+&quot;</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb110-8"><a href="토픽모델링.html#cb110-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;나이키&quot;</span>, <span class="st">&quot;일까지&quot;</span>,<span class="st">&quot;일부터&quot;</span>,<span class="st">&quot;있다&quot;</span>,<span class="st">&quot;밝혔다&quot;</span>,<span class="st">&quot;대한&quot;</span>,<span class="st">&quot;최근&quot;</span>,<span class="st">&quot;지난&quot;</span>)) </span>
+<span id="cb110-9"><a href="토픽모델링.html#cb110-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-10"><a href="토픽모델링.html#cb110-10" aria-hidden="true" tabindex="-1"></a>m_cdf <span class="ot">&lt;-</span> m_ttk <span class="sc">%&gt;%</span></span>
+<span id="cb110-11"><a href="토픽모델링.html#cb110-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
+<span id="cb110-12"><a href="토픽모델링.html#cb110-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">text2 =</span> <span class="fu">str_flatten</span>(word, <span class="st">&quot; &quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb110-13"><a href="토픽모델링.html#cb110-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb110-14"><a href="토픽모델링.html#cb110-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(m_df2, <span class="at">by =</span> <span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb110-15"><a href="토픽모델링.html#cb110-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-16"><a href="토픽모델링.html#cb110-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stm)</span>
+<span id="cb110-17"><a href="토픽모델링.html#cb110-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tm)</span>
+<span id="cb110-18"><a href="토픽모델링.html#cb110-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-19"><a href="토픽모델링.html#cb110-19" aria-hidden="true" tabindex="-1"></a>processed <span class="ot">&lt;-</span> m_df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb110-20"><a href="토픽모델링.html#cb110-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textProcessor</span>(</span>
+<span id="cb110-21"><a href="토픽모델링.html#cb110-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">documents =</span> m_cdf<span class="sc">$</span>text2,</span>
+<span id="cb110-22"><a href="토픽모델링.html#cb110-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">metadata =</span> .,</span>
+<span id="cb110-23"><a href="토픽모델링.html#cb110-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">wordLengths =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="cn">Inf</span>))</span></code></pre></div>
+<pre><code>## Building corpus... 
+## Converting to Lower Case... 
+## Removing punctuation... 
+## Removing stopwords... 
+## Removing numbers... 
+## Stemming... 
+## Creating Output...</code></pre>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="토픽모델링.html#cb112-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> </span>
+<span id="cb112-2"><a href="토픽모델링.html#cb112-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prepDocuments</span>(processed<span class="sc">$</span>documents,</span>
+<span id="cb112-3"><a href="토픽모델링.html#cb112-3" aria-hidden="true" tabindex="-1"></a>                     processed<span class="sc">$</span>vocab,</span>
+<span id="cb112-4"><a href="토픽모델링.html#cb112-4" aria-hidden="true" tabindex="-1"></a>                     processed<span class="sc">$</span>meta,</span>
+<span id="cb112-5"><a href="토픽모델링.html#cb112-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">lower.thresh =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="토픽모델링.html#cb113-1" aria-hidden="true" tabindex="-1"></a>docs <span class="ot">&lt;-</span> out<span class="sc">$</span>documents</span>
+<span id="cb113-2"><a href="토픽모델링.html#cb113-2" aria-hidden="true" tabindex="-1"></a>vocab <span class="ot">&lt;-</span> out<span class="sc">$</span>vocab</span>
+<span id="cb113-3"><a href="토픽모델링.html#cb113-3" aria-hidden="true" tabindex="-1"></a>meta <span class="ot">&lt;-</span> out<span class="sc">$</span>meta</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="토픽모델링.html#cb114-1" aria-hidden="true" tabindex="-1"></a>topicN <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="토픽모델링.html#cb115-1" aria-hidden="true" tabindex="-1"></a>m_stm_fit <span class="ot">&lt;-</span></span>
+<span id="cb115-2"><a href="토픽모델링.html#cb115-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">stm</span>(</span>
+<span id="cb115-3"><a href="토픽모델링.html#cb115-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">documents =</span> docs,</span>
+<span id="cb115-4"><a href="토픽모델링.html#cb115-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">vocab =</span> vocab,</span>
+<span id="cb115-5"><a href="토픽모델링.html#cb115-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">K =</span> <span class="dv">6</span>,</span>
+<span id="cb115-6"><a href="토픽모델링.html#cb115-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> meta,</span>
+<span id="cb115-7"><a href="토픽모델링.html#cb115-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.em.its =</span> <span class="dv">75</span>,</span>
+<span id="cb115-8"><a href="토픽모델링.html#cb115-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">init.type =</span> <span class="st">&quot;Spectral&quot;</span>,</span>
+<span id="cb115-9"><a href="토픽모델링.html#cb115-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> <span class="dv">25</span>,</span>
+<span id="cb115-10"><a href="토픽모델링.html#cb115-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">verbose =</span> F</span>
+<span id="cb115-11"><a href="토픽모델링.html#cb115-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div id="결과-1" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> 결과<a href="토픽모델링.html#결과-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="토픽모델링.html#cb116-1" aria-hidden="true" tabindex="-1"></a>m_topic_name <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">topic =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb116-2"><a href="토픽모델링.html#cb116-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="fu">c</span>(<span class="st">&quot;1. 주식시장&quot;</span>,</span>
+<span id="cb116-3"><a href="토픽모델링.html#cb116-3" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;2. 메타버스시장&quot;</span>,</span>
+<span id="cb116-4"><a href="토픽모델링.html#cb116-4" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;3. 패션플랫폼&quot;</span>,</span>
+<span id="cb116-5"><a href="토픽모델링.html#cb116-5" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;4. 메타버스 시장2&quot;</span>,</span>
+<span id="cb116-6"><a href="토픽모델링.html#cb116-6" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;5. 블랙프라이데이&quot;</span>,</span>
+<span id="cb116-7"><a href="토픽모델링.html#cb116-7" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;6. 에어조던&quot;</span>))</span>
+<span id="cb116-8"><a href="토픽모델링.html#cb116-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-9"><a href="토픽모델링.html#cb116-9" aria-hidden="true" tabindex="-1"></a>m_td_beta <span class="ot">&lt;-</span> m_stm_fit <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">&#39;beta&#39;</span>)</span>
+<span id="cb116-10"><a href="토픽모델링.html#cb116-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-11"><a href="토픽모델링.html#cb116-11" aria-hidden="true" tabindex="-1"></a>m_topic_name <span class="ot">&lt;-</span> m_td_beta <span class="sc">%&gt;%</span> </span>
+<span id="cb116-12"><a href="토픽모델링.html#cb116-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span> </span>
+<span id="cb116-13"><a href="토픽모델링.html#cb116-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(beta, <span class="at">n =</span> <span class="dv">7</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb116-14"><a href="토픽모델링.html#cb116-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(m_topic_name, <span class="at">by =</span> <span class="st">&quot;topic&quot;</span>)</span>
+<span id="cb116-15"><a href="토픽모델링.html#cb116-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-16"><a href="토픽모델링.html#cb116-16" aria-hidden="true" tabindex="-1"></a>m_topic_name <span class="sc">%&gt;%</span> </span>
+<span id="cb116-17"><a href="토픽모델링.html#cb116-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> beta, </span>
+<span id="cb116-18"><a href="토픽모델링.html#cb116-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="fu">reorder_within</span>(term, beta, name),  </span>
+<span id="cb116-19"><a href="토픽모델링.html#cb116-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> name)) <span class="sc">+</span></span>
+<span id="cb116-20"><a href="토픽모델링.html#cb116-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb116-21"><a href="토픽모델링.html#cb116-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb116-22"><a href="토픽모델링.html#cb116-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reordered</span>() <span class="sc">+</span>                             </span>
+<span id="cb116-23"><a href="토픽모델링.html#cb116-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="st">&quot;단어 확률분포: &quot;</span><span class="sc">~</span>beta), <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb116-24"><a href="토픽모델링.html#cb116-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span><span class="st">&quot;나이키 주제별 단어 확률 분포&quot;</span>) <span class="sc">+</span></span>
+<span id="cb116-25"><a href="토픽모델링.html#cb116-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-24-1.png" width="672" />
+#### 주식시장이 토픽모델링이 된 이유는 미국증시가 논란이 되면서 갑작스럽게 주식관련 기사가 많아졌지 때문이고,
+#### 메타버스 관련 토픽모델링에 우크라이나가 있는 이유는 원인은 파악하지 못했으나.
+#### 러.우전쟁으로 러시아에 있는 나이키 매장을 철수했기 때문입니다.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="토픽모델링.html#cb117-1" aria-hidden="true" tabindex="-1"></a>m_td_gamma <span class="ot">&lt;-</span> m_stm_fit <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">&quot;gamma&quot;</span>) </span>
+<span id="cb117-2"><a href="토픽모델링.html#cb117-2" aria-hidden="true" tabindex="-1"></a>m_top_terms <span class="ot">&lt;-</span> </span>
+<span id="cb117-3"><a href="토픽모델링.html#cb117-3" aria-hidden="true" tabindex="-1"></a>m_td_beta <span class="sc">%&gt;%</span> </span>
+<span id="cb117-4"><a href="토픽모델링.html#cb117-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span> </span>
+<span id="cb117-5"><a href="토픽모델링.html#cb117-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(beta, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb117-6"><a href="토픽모델링.html#cb117-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(topic, term) <span class="sc">%&gt;%</span> </span>
+<span id="cb117-7"><a href="토픽모델링.html#cb117-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">terms =</span> <span class="fu">str_flatten</span>(term, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>)) </span>
+<span id="cb117-8"><a href="토픽모델링.html#cb117-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-9"><a href="토픽모델링.html#cb117-9" aria-hidden="true" tabindex="-1"></a>m_gamma_terms <span class="ot">&lt;-</span> </span>
+<span id="cb117-10"><a href="토픽모델링.html#cb117-10" aria-hidden="true" tabindex="-1"></a>m_td_gamma <span class="sc">%&gt;%</span> </span>
+<span id="cb117-11"><a href="토픽모델링.html#cb117-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span> </span>
+<span id="cb117-12"><a href="토픽모델링.html#cb117-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">gamma =</span> <span class="fu">mean</span>(gamma)) <span class="sc">%&gt;%</span> </span>
+<span id="cb117-13"><a href="토픽모델링.html#cb117-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(m_top_terms, <span class="at">by =</span> <span class="st">&#39;topic&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb117-14"><a href="토픽모델링.html#cb117-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(m_topic_name, <span class="at">by =</span> <span class="st">&#39;topic&#39;</span>)</span>
+<span id="cb117-15"><a href="토픽모델링.html#cb117-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb117-16"><a href="토픽모델링.html#cb117-16" aria-hidden="true" tabindex="-1"></a>m_gamma_terms <span class="sc">%&gt;%</span> </span>
+<span id="cb117-17"><a href="토픽모델링.html#cb117-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> gamma, <span class="at">y =</span> <span class="fu">reorder</span>(name, gamma), <span class="at">fill =</span> name)) <span class="sc">+</span></span>
+<span id="cb117-18"><a href="토픽모델링.html#cb117-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb117-19"><a href="토픽모델링.html#cb117-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(gamma, <span class="dv">2</span>)), </span>
+<span id="cb117-20"><a href="토픽모델링.html#cb117-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">1.15</span>) <span class="sc">+</span>                </span>
+<span id="cb117-21"><a href="토픽모델링.html#cb117-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> terms), </span>
+<span id="cb117-22"><a href="토픽모델링.html#cb117-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.05</span>) <span class="sc">+</span>              </span>
+<span id="cb117-23"><a href="토픽모델링.html#cb117-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="st">&quot;문서 확률분포&quot;</span><span class="sc">~</span>(gamma)), <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb117-24"><a href="토픽모델링.html#cb117-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;나이키 토픽 상위 주제어&quot;</span>) <span class="sc">+</span></span>
+<span id="cb117-25"><a href="토픽모델링.html#cb117-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+</div>
+</div>
+<div id="정리" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> 정리<a href="토픽모델링.html#정리" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="나이키는-현재-22년-초에-ceo의-살인과거를-고백하고-잠시-휘청했으나-다시-회복하는-모양을-보이고-있습니다." class="section level3 hasAnchor" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> 나이키는 현재 22년 초에 ceo의 살인과거를 고백하고, 잠시 휘청했으나 다시 회복하는 모양을 보이고 있습니다.<a href="토픽모델링.html#나이키는-현재-22년-초에-ceo의-살인과거를-고백하고-잠시-휘청했으나-다시-회복하는-모양을-보이고-있습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="코로나-이후-나이키는-메타버스-시장의-가능성을-보고-그-쪽-시장에-집중하는-경향을-보이고-있습니다." class="section level3 hasAnchor" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> 코로나 이후 나이키는 메타버스 시장의 가능성을 보고 그 쪽 시장에 집중하는 경향을 보이고 있습니다.<a href="토픽모델링.html#코로나-이후-나이키는-메타버스-시장의-가능성을-보고-그-쪽-시장에-집중하는-경향을-보이고-있습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="현재는-아디다스가-카타르-월드컵에-공식-브랜드로-론칭되었으나-최근-다시-유니폼-쪽에서-나이키가-강세를-보이고-있습니다." class="section level3 hasAnchor" number="7.3.3">
+<h3><span class="header-section-number">7.3.3</span> 현재는 아디다스가 카타르 월드컵에 공식 브랜드로 론칭되었으나, 최근 다시 유니폼 쪽에서 나이키가 강세를 보이고 있습니다.<a href="토픽모델링.html#현재는-아디다스가-카타르-월드컵에-공식-브랜드로-론칭되었으나-최근-다시-유니폼-쪽에서-나이키가-강세를-보이고-있습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="아디다스-기사에는-나이키가-자주-나오는-반면-나이키기사에서는-아디다스가-많이-나오지는-않았고" class="section level3 hasAnchor" number="7.3.4">
+<h3><span class="header-section-number">7.3.4</span> 아디다스 기사에는 나이키가 자주 나오는 반면, 나이키기사에서는 아디다스가 많이 나오지는 않았고,<a href="토픽모델링.html#아디다스-기사에는-나이키가-자주-나오는-반면-나이키기사에서는-아디다스가-많이-나오지는-않았고" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="이를-통해-전체적인-브랜드-인지도나-사람들의-선호도는-나이키가-더-높은-것으로-파악했습니다." class="section level3 hasAnchor" number="7.3.5">
+<h3><span class="header-section-number">7.3.5</span> 이를 통해 전체적인 브랜드 인지도나, 사람들의 선호도는 나이키가 더 높은 것으로 파악했습니다.<a href="토픽모델링.html#이를-통해-전체적인-브랜드-인지도나-사람들의-선호도는-나이키가-더-높은-것으로-파악했습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="두-브랜드-모두-블랙프라이데이-기간이-다가오면-플랫폼에서-할인-행사등을-하는-기사가-많아지는-추세를-보여줬습니다." class="section level3 hasAnchor" number="7.3.6">
+<h3><span class="header-section-number">7.3.6</span> 두 브랜드 모두 블랙프라이데이 기간이 다가오면 플랫폼에서 할인 행사등을 하는 기사가 많아지는 추세를 보여줬습니다.<a href="토픽모델링.html#두-브랜드-모두-블랙프라이데이-기간이-다가오면-플랫폼에서-할인-행사등을-하는-기사가-많아지는-추세를-보여줬습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="토픽모델링을-보면-아디다스는-협업-관련-론칭-관련이-많은-등의-여러-인지도를-높이기-위한-시도를-하고-있는-것을-알-수-있었습니다." class="section level3 hasAnchor" number="7.3.7">
+<h3><span class="header-section-number">7.3.7</span> 토픽모델링을 보면 아디다스는 협업 관련 론칭 관련이 많은 등의 여러 인지도를 높이기 위한 시도를 하고 있는 것을 알 수 있었습니다.<a href="토픽모델링.html#토픽모델링을-보면-아디다스는-협업-관련-론칭-관련이-많은-등의-여러-인지도를-높이기-위한-시도를-하고-있는-것을-알-수-있었습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="상대빈도분석-1.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

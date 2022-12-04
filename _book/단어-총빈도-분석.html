@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | A Minimal Book Example</title>
+  <title>Chapter 4 단어 총빈도 분석 | A Minimal Book Example</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 4 단어 총빈도 분석 | A Minimal Book Example" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 4 단어 총빈도 분석 | A Minimal Book Example" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="데이터셋-설정.html"/>
+<link rel="next" href="긍-부정어-분석.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -243,19 +243,117 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="단어-총빈도-분석" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> 단어 총빈도 분석<a href="단어-총빈도-분석.html#단어-총빈도-분석" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="단어-총빈도-분석.html#cb74-1" aria-hidden="true" tabindex="-1"></a>m_df2 <span class="ot">&lt;-</span> m_df <span class="sc">%&gt;%</span> </span>
+<span id="cb74-2"><a href="단어-총빈도-분석.html#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(제목, <span class="at">.keep_all =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb74-3"><a href="단어-총빈도-분석.html#cb74-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ID =</span> <span class="fu">factor</span>(<span class="fu">row_number</span>())) <span class="sc">%&gt;%</span> </span>
+<span id="cb74-4"><a href="단어-총빈도-분석.html#cb74-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label =</span> <span class="st">&quot;0&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb74-5"><a href="단어-총빈도-분석.html#cb74-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(제목, 본문, <span class="at">col =</span> <span class="st">&quot;text&quot;</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb74-6"><a href="단어-총빈도-분석.html#cb74-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_squish</span>(text))</span>
+<span id="cb74-7"><a href="단어-총빈도-분석.html#cb74-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-8"><a href="단어-총빈도-분석.html#cb74-8" aria-hidden="true" tabindex="-1"></a>m_tk <span class="ot">&lt;-</span> m_df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb74-9"><a href="단어-총빈도-분석.html#cb74-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text, <span class="st">&quot;[^(</span><span class="sc">\\</span><span class="st">w+|</span><span class="sc">\\</span><span class="st">s)]&quot;</span>)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb74-10"><a href="단어-총빈도-분석.html#cb74-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text, <span class="at">token =</span> <span class="st">&quot;regex&quot;</span>, <span class="at">drop =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb74-11"><a href="단어-총빈도-분석.html#cb74-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> T)</span>
+<span id="cb74-12"><a href="단어-총빈도-분석.html#cb74-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-13"><a href="단어-총빈도-분석.html#cb74-13" aria-hidden="true" tabindex="-1"></a>m_tk <span class="ot">&lt;-</span> </span>
+<span id="cb74-14"><a href="단어-총빈도-분석.html#cb74-14" aria-hidden="true" tabindex="-1"></a>m_tk <span class="sc">%&gt;%</span> </span>
+<span id="cb74-15"><a href="단어-총빈도-분석.html#cb74-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;나이키&quot;</span>,<span class="st">&quot;있다&quot;</span>,<span class="st">&quot;밝혔다&quot;</span>,<span class="st">&quot;기자&quot;</span>,<span class="st">&quot;통해&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb74-16"><a href="단어-총빈도-분석.html#cb74-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(word, <span class="st">&quot;[:alpha:]+&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb74-17"><a href="단어-총빈도-분석.html#cb74-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb74-18"><a href="단어-총빈도-분석.html#cb74-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb74-19"><a href="단어-총빈도-분석.html#cb74-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder</span>(word, n))</span>
+<span id="cb74-20"><a href="단어-총빈도-분석.html#cb74-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-21"><a href="단어-총빈도-분석.html#cb74-21" aria-hidden="true" tabindex="-1"></a>m_tk <span class="sc">%&gt;%</span></span>
+<span id="cb74-22"><a href="단어-총빈도-분석.html#cb74-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(word, n)) <span class="sc">+</span></span>
+<span id="cb74-23"><a href="단어-총빈도-분석.html#cb74-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb74-24"><a href="단어-총빈도-분석.html#cb74-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb74-25"><a href="단어-총빈도-분석.html#cb74-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;나이키 단어 총빈도 분석&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div id="나이키-단어-총빈도-분석" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> 나이키 단어 총빈도 분석<a href="단어-총빈도-분석.html#나이키-단어-총빈도-분석" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="러시아가-상위-주제어에-있었으나-그-수가-너무-많아-후에-분석에-방해되어-삭제했습니다." class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> ★러시아가 상위 주제어에 있었으나, 그 수가 너무 많아 후에 분석에 방해되어 삭제했습니다.<a href="단어-총빈도-분석.html#러시아가-상위-주제어에-있었으나-그-수가-너무-많아-후에-분석에-방해되어-삭제했습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="매년-블랙프라이데이에-패션플랫폼에서-할인이벤트-등을-해-상위어에-나왔습니다" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> ★매년 블랙프라이데이에 패션플랫폼에서 할인이벤트 등을 해 상위어에 나왔습니다<a href="단어-총빈도-분석.html#매년-블랙프라이데이에-패션플랫폼에서-할인이벤트-등을-해-상위어에-나왔습니다" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="기술발전과-코로나-이후에-나이키가-메타버스시장개발에-집중하게되었고" class="section level3 hasAnchor" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> ★기술발전과, 코로나 이후에 나이키가 메타버스시장개발에 집중하게되었고,<a href="단어-총빈도-분석.html#기술발전과-코로나-이후에-나이키가-메타버스시장개발에-집중하게되었고" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="중국에-메타버스-관련-유명-개발자가-있어-중국이-상위어로-같이-나왔습니다." class="section level3 hasAnchor" number="4.1.4">
+<h3><span class="header-section-number">4.1.4</span> ★중국에 메타버스 관련 유명 개발자가 있어 중국이 상위어로 같이 나왔습니다.<a href="단어-총빈도-분석.html#중국에-메타버스-관련-유명-개발자가-있어-중국이-상위어로-같이-나왔습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="아디다스에는-나이키가-상위어인데-반해-나이키는-아디다스가-상위어로-나오지-않았습니다." class="section level3 hasAnchor" number="4.1.5">
+<h3><span class="header-section-number">4.1.5</span> ★아디다스에는 나이키가 상위어인데 반해 나이키는 아디다스가 상위어로 나오지 않았습니다.<a href="단어-총빈도-분석.html#아디다스에는-나이키가-상위어인데-반해-나이키는-아디다스가-상위어로-나오지-않았습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="단어-총빈도-분석.html#cb75-1" aria-hidden="true" tabindex="-1"></a>s_df2 <span class="ot">&lt;-</span> s_df <span class="sc">%&gt;%</span> </span>
+<span id="cb75-2"><a href="단어-총빈도-분석.html#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(제목, <span class="at">.keep_all =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-3"><a href="단어-총빈도-분석.html#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ID =</span> <span class="fu">factor</span>(<span class="fu">row_number</span>())) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-4"><a href="단어-총빈도-분석.html#cb75-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label =</span> <span class="st">&quot;0&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb75-5"><a href="단어-총빈도-분석.html#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(제목, 본문, <span class="at">col =</span> <span class="st">&quot;text&quot;</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-6"><a href="단어-총빈도-분석.html#cb75-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_squish</span>(text))</span>
+<span id="cb75-7"><a href="단어-총빈도-분석.html#cb75-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-8"><a href="단어-총빈도-분석.html#cb75-8" aria-hidden="true" tabindex="-1"></a>s_tk <span class="ot">&lt;-</span> s_df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb75-9"><a href="단어-총빈도-분석.html#cb75-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text, <span class="st">&quot;[^(</span><span class="sc">\\</span><span class="st">w+|</span><span class="sc">\\</span><span class="st">s)]&quot;</span>)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb75-10"><a href="단어-총빈도-분석.html#cb75-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text, <span class="at">token =</span> <span class="st">&quot;regex&quot;</span>, <span class="at">drop =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb75-11"><a href="단어-총빈도-분석.html#cb75-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> T)</span>
+<span id="cb75-12"><a href="단어-총빈도-분석.html#cb75-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-13"><a href="단어-총빈도-분석.html#cb75-13" aria-hidden="true" tabindex="-1"></a>s_tk <span class="ot">&lt;-</span> </span>
+<span id="cb75-14"><a href="단어-총빈도-분석.html#cb75-14" aria-hidden="true" tabindex="-1"></a>s_tk <span class="sc">%&gt;%</span> </span>
+<span id="cb75-15"><a href="단어-총빈도-분석.html#cb75-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;아디다스&quot;</span>,<span class="st">&quot;있다&quot;</span>,<span class="st">&quot;따르면&quot;</span>,<span class="st">&quot;밝혔다&quot;</span>,<span class="st">&quot;지난&quot;</span>,<span class="st">&quot;기자&quot;</span>,<span class="st">&quot;최근&quot;</span>,<span class="st">&quot;있는&quot;</span>,<span class="st">&quot;미국&quot;</span>,<span class="st">&quot;일까지&quot;</span>,<span class="st">&quot;일부터&quot;</span>,<span class="st">&quot;머니투데이&quot;</span>,<span class="st">&quot;통해&quot;</span>,<span class="st">&quot;대한&quot;</span>,<span class="st">&quot;것으로&quot;</span>,<span class="st">&quot;오는&quot;</span>,<span class="st">&quot;이번&quot;</span>,<span class="st">&quot;아시아경제&quot;</span>,<span class="st">&quot;7일&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-16"><a href="단어-총빈도-분석.html#cb75-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(word, <span class="st">&quot;[:alpha:]+&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb75-17"><a href="단어-총빈도-분석.html#cb75-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb75-18"><a href="단어-총빈도-분석.html#cb75-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-19"><a href="단어-총빈도-분석.html#cb75-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder</span>(word, n))</span>
+<span id="cb75-20"><a href="단어-총빈도-분석.html#cb75-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-21"><a href="단어-총빈도-분석.html#cb75-21" aria-hidden="true" tabindex="-1"></a>s_tk <span class="sc">%&gt;%</span></span>
+<span id="cb75-22"><a href="단어-총빈도-분석.html#cb75-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(word, n)) <span class="sc">+</span></span>
+<span id="cb75-23"><a href="단어-총빈도-분석.html#cb75-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb75-24"><a href="단어-총빈도-분석.html#cb75-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb75-25"><a href="단어-총빈도-분석.html#cb75-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;아디다스 단어 총빈도 분석&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+## 아디다서 단어 총빈도 분석</p>
+</div>
+<div id="카타르-월드컵의-공인구나-협업-브랜드가-아디다스로-선정됨" class="section level3 hasAnchor" number="4.1.6">
+<h3><span class="header-section-number">4.1.6</span> 카타르 월드컵의 공인구나 협업 브랜드가 아디다스로 선정됨<a href="단어-총빈도-분석.html#카타르-월드컵의-공인구나-협업-브랜드가-아디다스로-선정됨" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="손흥민이-아디다스의-모델로-선정되어-상위어에-위치함" class="section level3 hasAnchor" number="4.1.7">
+<h3><span class="header-section-number">4.1.7</span> ★손흥민이 아디다스의 모델로 선정되어 상위어에 위치함<a href="단어-총빈도-분석.html#손흥민이-아디다스의-모델로-선정되어-상위어에-위치함" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="포토가-상위어에-있었으나-포토존이나-여러-연예인들의-사진을-포토로-지정해-관련이-없다고-판단하여-삭제함" class="section level3 hasAnchor" number="4.1.8">
+<h3><span class="header-section-number">4.1.8</span> ★포토가 상위어에 있었으나, 포토존이나 여러 연예인들의 사진을 포토로 지정해 관련이 없다고 판단하여, 삭제함<a href="단어-총빈도-분석.html#포토가-상위어에-있었으나-포토존이나-여러-연예인들의-사진을-포토로-지정해-관련이-없다고-판단하여-삭제함" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="가장-대적되는-기업인-나이키또한-아디다스-총빈도-분석에서-상위어에-들정도로-기사가-많이-남" class="section level3 hasAnchor" number="4.1.9">
+<h3><span class="header-section-number">4.1.9</span> ★가장 대적되는 기업인 나이키또한 아디다스 총빈도 분석에서 상위어에 들정도로 기사가 많이 남<a href="단어-총빈도-분석.html#가장-대적되는-기업인-나이키또한-아디다스-총빈도-분석에서-상위어에-들정도로-기사가-많이-남" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
+<div id="단어-총빈도-분석-정리" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> 단어 총빈도 분석 정리<a href="단어-총빈도-분석.html#단어-총빈도-분석-정리" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="정리하면-나이키에서-메타버스와-nft는-새로운-시장-개척지로-선정되어" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> 정리하면, 나이키에서 메타버스와 nft는 새로운 시장 개척지로 선정되어<a href="단어-총빈도-분석.html#정리하면-나이키에서-메타버스와-nft는-새로운-시장-개척지로-선정되어" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="그와-관련된-중국의-유명-개발자가-있어-상위어에-중국이-나오게-되었고" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> 그와 관련된 중국의 유명 개발자가 있어 상위어에 중국이 나오게 되었고,<a href="단어-총빈도-분석.html#그와-관련된-중국의-유명-개발자가-있어-상위어에-중국이-나오게-되었고" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="아디다스는-카타르-월드컵-대표-브랜드로-선정되어-카타르-월드컵-관련-주제어가-많이나오는-반면" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> 아디다스는 카타르 월드컵 대표 브랜드로 선정되어 카타르 월드컵 관련 주제어가 많이나오는 반면<a href="단어-총빈도-분석.html#아디다스는-카타르-월드컵-대표-브랜드로-선정되어-카타르-월드컵-관련-주제어가-많이나오는-반면" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="나이키는-상위어빈도가-크게-차이-나지않게-고루고루-분포되어-있고" class="section level3 hasAnchor" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> 나이키는 상위어빈도가 크게 차이 나지않게 고루고루 분포되어 있고<a href="단어-총빈도-분석.html#나이키는-상위어빈도가-크게-차이-나지않게-고루고루-분포되어-있고" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="그리고-같은-기간내에-나이키의-기사수가-아디다스보다-약-500개정도-더-많았습니다." class="section level3 hasAnchor" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> 그리고 같은 기간내에 나이키의 기사수가 아디다스보다 약 500개정도 더 많았습니다.<a href="단어-총빈도-분석.html#그리고-같은-기간내에-나이키의-기사수가-아디다스보다-약-500개정도-더-많았습니다." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="데이터셋-설정.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="긍-부정어-분석.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -286,7 +384,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
 "text": "Edit"
 },
 "history": {
