@@ -473,7 +473,7 @@ s_topic_name %>%
   facet_wrap(~name, scales = "free") +
   scale_y_reordered() +                             
   labs(x = expression("단어 확률분포: "~beta), y = NULL,
-       title = "수자원 주제별 단어 확률 분포") +
+       title = "아디다스 주제별 단어 확률 분포") +
   theme(plot.title = element_text(size = 20))
 
 
